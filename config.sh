@@ -29,7 +29,7 @@ clone_or_pull() {
     local repo_url="$1"
     local repo_path="$2"
     local branch="$3"
-    
+
     if [ ! -d "$repo_path" ]; then
         git clone --depth 1 -b "$branch" "$repo_url" "$repo_path"
     else

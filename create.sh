@@ -10,20 +10,20 @@ source "$SCRIPT_DIR/config.sh"
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 <project_name> [odoo_version]"
-    echo "  project_name: Name of the project/customer environment"
-    echo "  odoo_version: Odoo version to use (default: 16.0)"
+    echo "Usage: $0 <project_name> <odoo_version>"
+    echo "  project_name: Name of the project/customer environment (e.g. houtland-18)"
+    echo "  odoo_version: Odoo version to use (e.g. 18.0)"
     exit 1
 }
 
-# Check if project name is provided
-if [ -z "$1" ]; then
+# Check if both parameters were provided
+if [ -z "$2" ]; then
     usage
 fi
 
 # Set project-specific variables
 PROJECT_NAME="$1"
-ODOO_VERSION="${2:-16.0}"
+ODOO_VERSION="$2"
 PROJECT_PATH="$BASE_PATH/$PROJECT_NAME"
 VENV_PATH="$PROJECT_PATH/venv"
 CUSTOM_ADDONS_PATH="$PROJECT_PATH/custom_addons"
@@ -94,7 +94,7 @@ fi
 uv pip install -r "$ODOO_PATH/requirements.txt"
 
 # Install additional development tools
-uv pip install debugpy
+uv pip install debugpy pylint-odoo
 
 # Create custom addons directory
 mkdir -p "$CUSTOM_ADDONS_PATH"
@@ -129,14 +129,24 @@ cat "$SCRIPT_DIR/templates/launch.json.template" | replace_placeholders > "$PROJ
 cat "$SCRIPT_DIR/templates/tasks.json.template" | replace_placeholders > "$PROJECT_PATH/.vscode/tasks.json"
 cat "$SCRIPT_DIR/templates/shortcuts.json.template" | replace_placeholders > "$PROJECT_PATH/.vscode/shortcuts.json"
 
+# Create .pylintrc
+if [ -f "$SCRIPT_DIR/templates/.pylintrc.$ODOO_VERSION.template" ]; then
+    cat "$SCRIPT_DIR/templates/.pylintrc.$ODOO_VERSION.template"| replace_placeholders > "$PROJECT_PATH/.vscode/.pylintrc"
+else
+    echo -e "\033[0;31mWarning: No specific .pylintrc template found for Odoo version $ODOO_VERSION.\033[0m"
+fi
+
 # Create utility scripts
 cat "$SCRIPT_DIR/templates/update_addons_path.sh.template" | replace_placeholders > "$PROJECT_PATH/update_addons_path.sh"
 cat "$SCRIPT_DIR/templates/list_modules.sh.template" | replace_placeholders > "$PROJECT_PATH/list_modules.sh"
 chmod +x "$PROJECT_PATH/update_addons_path.sh"
 chmod +x "$PROJECT_PATH/list_modules.sh"
 
-echo "Odoo development environment for $PROJECT_NAME setup complete!"
-echo "Your custom addons should be placed in: $CUSTOM_ADDONS_PATH"
-echo "To open the project in VSCode, use: code $PROJECT_PATH/$PROJECT_NAME.code-workspace"
+# Report completion
+echo ""
+echo -e "\033[0;32mOdoo development environment for \033[1;33m$PROJECT_NAME\033[0;32m setup complete!\033[0m"
+echo -e "Your custom addons should be placed in: \033[0;36m$CUSTOM_ADDONS_PATH\033[0m"
+echo -e "To open the project in VSCode, use: \033[0;36mcode $PROJECT_PATH/$PROJECT_NAME.code-workspace\033[0m"
 echo "To run Odoo with debugging enabled, use the 'Python: Odoo' launch configuration in VSCode."
 echo "NOTE: Ensure your SSH key is added to your GitHub account for Odoo, Enterprise, and design-themes repositories."
+echo ""

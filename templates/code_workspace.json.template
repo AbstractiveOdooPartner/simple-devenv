@@ -10,36 +10,54 @@
         },
         {
             "name": "Odoo",
-            "path": "/opt/odoos/$ODOO_VERSION/odoo"
+            "path": "$ODOO_PATH"
         },
         {
             "name": "Enterprise",
-            "path": "/opt/odoos/$ODOO_VERSION/enterprise"
+            "path": "$ENTERPRISE_PATH"
         },
         {
             "name": "Design Themes",
-            "path": "/opt/odoos/$ODOO_VERSION/design-themes"
+            "path": "$DESIGN_THEMES_PATH"
         }
     ],
     "settings": {
+
+        // Python config
         "python.defaultInterpreterPath": "$VENV_PATH/bin/python",
         "python.analysis.extraPaths": [
-            "/opt/odoos/$ODOO_VERSION/odoo",
-            "/opt/odoos/$ODOO_VERSION/enterprise",
-            "/opt/odoos/$ODOO_VERSION/design-themes"
+            "$ODOO_PATH",
+            "$ENTERPRISE_PATH",
+            "$DESIGN_THEMES_PATH",
         ],
+        "python.analysis.autoFormatStrings": true,
         "[python]": {
             "editor.formatOnSave": true,
             "editor.defaultFormatter": "charliermarsh.ruff"
         },
+
+        // VSCode config
         "files.exclude": {
             "**/*.pyc": true,
             "**/*.pyo": true,
             "venv": true,
             "**/__pycache__": true
         },
-        "python.languageServer": "None",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+
+        // Ruff config
         "ruff.lineLength": 120,
-        "python.analysis.autoFormatStrings": true
+
+        // Pylint config
+        "pylint.args": [
+            "--rcfile=$PROJECT_PATH/.vscode/.pylintrc",
+        ],
+        "pylint.ignorePatterns": [
+            "$ODOO_PATH/**",
+            "$ENTERPRISE_PATH/**",
+            "$DESIGN_THEMES_PATH/**",
+        ],
+
     }
 }

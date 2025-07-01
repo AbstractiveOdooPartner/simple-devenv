@@ -10,7 +10,7 @@
             "pathMappings": [
                 {
                     "localRoot": "${workspaceFolder}",
-                    "remoteRoot": "${workspaceFolder}"
+                    "remoteRoot": "${workspaceFolder}",
                 }
             ],
             "justMyCode": false,
@@ -20,12 +20,12 @@
                 "order": 1
             },
             "args": [
-                "-c",
-                "${workspaceFolder}/odoo.conf",
+                "-c${workspaceFolder}/odoo.conf",
                 "--dev=xml,qweb",
-                "--log-level=debug",
-                "-d",
-                "$PROJECT_NAME"
+                "--log-level=info",
+
+                "-d$PROJECT_NAME-demo",
+
             ]
         }
     ]
