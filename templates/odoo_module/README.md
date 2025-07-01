@@ -4,22 +4,34 @@ $MODULE_TITLE
 Summary
 -------
 
-$BASIC_SUMMARY
+(...)
 
 
 Summary [nl]
 ------------
 
-$BASIC_SUMMARY_NL
+(...)
 
 
 Functional
 ----------
 
-$FUNCTIONAL
+(...)
+
+
+Functional - Motivation
+-----------------------
+
+(...)
+
+
+Functional - Configuration
+--------------------------
+
+(...)
 
 
 Technical
 ---------
 
-$TECHNICAL
+(...)
