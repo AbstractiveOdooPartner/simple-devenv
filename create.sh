@@ -128,13 +128,7 @@ mkdir -p "$PROJECT_PATH/.vscode"
 cat "$SCRIPT_DIR/templates/launch.json.template" | replace_placeholders > "$PROJECT_PATH/.vscode/launch.json"
 cat "$SCRIPT_DIR/templates/tasks.json.template" | replace_placeholders > "$PROJECT_PATH/.vscode/tasks.json"
 cat "$SCRIPT_DIR/templates/shortcuts.json.template" | replace_placeholders > "$PROJECT_PATH/.vscode/shortcuts.json"
-
-# Create .pylintrc
-if [ -f "$SCRIPT_DIR/templates/.pylintrc.$ODOO_VERSION.template" ]; then
-    cat "$SCRIPT_DIR/templates/.pylintrc.$ODOO_VERSION.template"| replace_placeholders > "$PROJECT_PATH/.vscode/.pylintrc"
-else
-    echo -e "\033[0;31mWarning: No specific .pylintrc template found for Odoo version $ODOO_VERSION.\033[0m"
-fi
+cat "$SCRIPT_DIR/templates/.pylintrc.template"| replace_placeholders > "$PROJECT_PATH/.vscode/.pylintrc"
 
 # Create utility scripts
 cat "$SCRIPT_DIR/templates/update_addons_path.sh.template" | replace_placeholders > "$PROJECT_PATH/update_addons_path.sh"
