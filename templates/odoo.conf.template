@@ -10,7 +10,7 @@ limit_time_real = 0
 workers = 0
 max_cron_threads = 0
 log_level = debug
-log_handler = [':DEBUG']
+log_handler = [':INFO']
 
 # Development settings
 dev_mode = True
