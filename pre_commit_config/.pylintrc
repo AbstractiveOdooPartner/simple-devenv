@@ -1,0 +1,80 @@
+
+# Based on OCA's standard .pylintrc
+
+[MASTER]
+load-plugins=pylint_odoo
+score=n
+
+[ODOOLINT]
+readme-template-url="https://github.com/AbstractiveOdooPartner/simple-devenv/blob/main/templates/odoo_module/README.md"
+manifest-required-authors=Abstractive BV
+manifest-required-keys=license,contributors
+manifest-deprecated-keys=description,active
+valid-odoo-versions=18.0
+
+[MESSAGES CONTROL]
+disable=all
+
+enable=anomalous-backslash-in-string,
+    assignment-from-none,
+    attribute-deprecated,
+    dangerous-default-value,
+    development-status-allowed,
+    duplicate-key,
+    eval-used,
+    license-allowed,
+    manifest-author-string,
+    manifest-deprecated-key,
+    manifest-required-author,
+    manifest-required-key,
+    manifest-version-format,
+    method-compute,
+    method-inverse,
+    method-required-super,
+    method-search,
+    pointless-statement,
+    pointless-string-statement,
+    print-used,
+    redundant-keyword-arg,
+    reimported,
+    return-in-init,
+    sql-injection,
+    too-few-format-args,
+    translation-field,
+    translation-required,
+    unreachable,
+    use-vim-comment,
+    attribute-string-redundant,
+    consider-merging-classes-inherited,
+    context-overridden,
+    except-pass,
+    invalid-commit,
+    manifest-maintainers-list,
+    missing-readme,
+    missing-return,
+    odoo-addons-relative-import,
+    renamed-field-parameter,
+    resource-not-exist,
+    test-folder-imported,
+    translation-contains-variable,
+    translation-positional-used,
+    translation-format-interpolation,
+    translation-format-truncated,
+    translation-fstring-interpolation,
+    translation-too-few-args,
+    translation-too-many-args,
+    website-manifest-key-not-valid-uri,
+    external-request-timeout,
+    # messages that do not cause the lint step to fail
+    consider-merging-classes-inherited,
+    deprecated-module,
+    invalid-commit,
+    missing-readme,
+    odoo-addons-relative-import,
+    redefined-builtin,
+
+
+[REPORTS]
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+output-format=colorized
+reports=no
