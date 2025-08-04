@@ -31,7 +31,12 @@ ODOO_BASE_PATH="/opt/odoos/$ODOO_VERSION"
 ODOO_PATH="$ODOO_BASE_PATH/odoo"
 ENTERPRISE_PATH="$ODOO_BASE_PATH/enterprise"
 DESIGN_THEMES_PATH="$ODOO_BASE_PATH/design-themes"
-PYTHON_VERSION="3.12"
+
+if [ "$ODOO_VERSION" = "14.0" ]; then
+    PYTHON_VERSION="3.8"
+else
+    PYTHON_VERSION="3.12"
+fi
 
 # Install system dependencies
 sudo apt update
