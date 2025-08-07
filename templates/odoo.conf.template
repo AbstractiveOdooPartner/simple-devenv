@@ -3,13 +3,14 @@ db_host = localhost
 db_port = 5432
 db_user = odoo
 db_password = odoo
+http_port = 8269
 
 # Debug settings
 limit_time_cpu = 0
 limit_time_real = 0
 workers = 0
 max_cron_threads = 0
-log_level = debug
+log_level = info
 log_handler = [':INFO']
 
 # Development settings
