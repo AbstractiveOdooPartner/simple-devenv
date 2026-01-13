@@ -2,7 +2,7 @@
 
 # Base configuration
 PYTHON_VERSION="3.12"
-BASE_PATH="$HOME/odoo_projects"
+BASE_PATH="${BASE_PATH:-$HOME/odoo_projects}"
 
 # System dependencies
 SYSTEM_DEPENDENCIES=(

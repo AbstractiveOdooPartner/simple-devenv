@@ -104,6 +104,21 @@ uv pip install debugpy pylint-odoo
 # Create custom addons directory
 mkdir -p "$CUSTOM_ADDONS_PATH"
 
+# Clone git repository with submodules if specified
+if [ -n "${CLONE_REPO:-}" ]; then
+    echo "Cloning repository: $CLONE_REPO"
+    # Extract repo name from URL for the target directory
+    REPO_NAME=$(basename "$CLONE_REPO" .git)
+    REPO_PATH="$CUSTOM_ADDONS_PATH/$REPO_NAME"
+    if [ -d "$REPO_PATH" ]; then
+        echo "Repository already exists at $REPO_PATH, pulling latest changes..."
+        (cd "$REPO_PATH" && git pull && git submodule update --init --recursive)
+    else
+        git clone --recurse-submodules "$CLONE_REPO" "$REPO_PATH"
+    fi
+    echo "Repository cloned to: $REPO_PATH"
+fi
+
 # Function to replace placeholders in templates
 replace_placeholders() {
     sed -e "s|\$VENV_PATH|$VENV_PATH|g" \
@@ -115,7 +130,8 @@ replace_placeholders() {
         -e "s|\$USER|$USER|g" \
         -e "s|\$PROJECT_NAME|$PROJECT_NAME|g" \
         -e "s|\$ODOO_VERSION|$ODOO_VERSION|g" \
-        -e "s|\$DEFAULT_MODULE||g"
+        -e "s|\$DEFAULT_MODULE||g" \
+        -e "s|\$DB_NAME|${DB_NAME:-}|g"
 }
 
 # Create run_odoo_debug.sh script
@@ -138,8 +154,28 @@ cat "$SCRIPT_DIR/templates/.pylintrc.template"| replace_placeholders > "$PROJECT
 # Create utility scripts
 cat "$SCRIPT_DIR/templates/update_addons_path.sh.template" | replace_placeholders > "$PROJECT_PATH/update_addons_path.sh"
 cat "$SCRIPT_DIR/templates/list_modules.sh.template" | replace_placeholders > "$PROJECT_PATH/list_modules.sh"
+cat "$SCRIPT_DIR/templates/update_odools_config.sh.template" | replace_placeholders > "$PROJECT_PATH/update_odools_config.sh"
 chmod +x "$PROJECT_PATH/update_addons_path.sh"
 chmod +x "$PROJECT_PATH/list_modules.sh"
+chmod +x "$PROJECT_PATH/update_odools_config.sh"
+
+# Generate initial odools.toml configuration (discovers addon paths including submodules)
+echo "Generating Odoo Language Server configuration..."
+"$PROJECT_PATH/update_odools_config.sh"
+
+# Install pre-commit hooks if requested
+if [ "${INSTALL_PRECOMMIT:-}" = "1" ]; then
+    echo "Installing pre-commit hooks..."
+    cp "$SCRIPT_DIR/pre_commit_config/.pre-commit-config.yaml" "$CUSTOM_ADDONS_PATH/"
+    cp "$SCRIPT_DIR/pre_commit_config/.ruff.toml" "$CUSTOM_ADDONS_PATH/"
+    cp "$SCRIPT_DIR/pre_commit_config/.pylintrc" "$CUSTOM_ADDONS_PATH/"
+    cp "$SCRIPT_DIR/pre_commit_config/.pylintrc-mandatory" "$CUSTOM_ADDONS_PATH/"
+    cp "$SCRIPT_DIR/pre_commit_config/eslint.config.cjs" "$CUSTOM_ADDONS_PATH/"
+    cp "$SCRIPT_DIR/pre_commit_config/prettier.config.cjs" "$CUSTOM_ADDONS_PATH/"
+    uv pip install pre-commit
+    (cd "$CUSTOM_ADDONS_PATH" && git init && pre-commit install)
+    echo "Pre-commit hooks installed in custom_addons directory"
+fi
 
 # Report completion
 echo ""

@@ -36,6 +36,12 @@
             "editor.defaultFormatter": "charliermarsh.ruff"
         },
 
+        // Disable Pylance features that conflict with Odoo Language Server
+        // odoo-ls provides better Odoo-specific completions and diagnostics
+        "python.analysis.diagnosticMode": "openFilesOnly",
+        "python.analysis.typeCheckingMode": "off",
+        "python.analysis.autoImportCompletions": false,
+
         // VSCode config
         "files.exclude": {
             "**/*.pyc": true,
@@ -59,5 +65,17 @@
             "$DESIGN_THEMES_PATH/**",
         ],
 
+        // Odoo Language Server - uses odools.toml in project root
+        // Run ./update_odools_config.sh after adding new addons/submodules
+
+    },
+    "extensions": {
+        "recommendations": [
+            "Odoo.odoo",
+            "charliermarsh.ruff",
+            "ms-python.python",
+            "ms-python.debugpy"
+        ],
+        "unwantedRecommendations": []
     }
 }
