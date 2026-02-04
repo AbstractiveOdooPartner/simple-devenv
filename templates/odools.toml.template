@@ -49,5 +49,5 @@ path_type = "in"
 [[config.diagnostic_filters]]
 paths = ["**/tests/**", "**/test_*"]
 codes = ["OLS.*"]
-types = ["info", "warning"]
+types = ["Info", "Warning"]
 path_type = "in"
