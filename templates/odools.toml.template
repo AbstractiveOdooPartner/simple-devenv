@@ -36,7 +36,7 @@ ac_filter_model_names = true
 # OLS30010 = "disabled"  # Example: disable specific diagnostic
 
 # Ignore diagnostics from Odoo core code (/opt/odoos)
-[[diagnostic_filters]]
+[[config.diagnostic_filters]]
 paths = ["/opt/odoos/**"]
 codes = [".*"]
 path_type = "in"
@@ -46,7 +46,7 @@ path_type = "in"
 # (e.g., OCA repos will be filtered, your own repos won't)
 
 # Filter diagnostics for test files (reduce noise)
-[[diagnostic_filters]]
+[[config.diagnostic_filters]]
 paths = ["**/tests/**", "**/test_*"]
 codes = ["OLS.*"]
 types = ["info", "warning"]
