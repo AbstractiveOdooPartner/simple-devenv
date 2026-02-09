@@ -182,12 +182,12 @@ diag_missing_imports = "only_odoo"
 ac_filter_model_names = true
 
 # Diagnostic settings - customize severity levels
-# Available: "info", "warning", "error", "disabled"
+# Available: "Info", "warning", "error", "disabled"
 [diagnostic_settings]
 # OLS30010 = "disabled"  # Example: disable specific diagnostic
 
 # Ignore diagnostics from Odoo core code (/opt/odoos)
-[[diagnostic_filters]]
+[[config.diagnostic_filters]]
 paths = ["/opt/odoos/**"]
 codes = [".*"]
 path_type = "in"
@@ -198,7 +198,7 @@ FOOTER
 for org in "${THIRD_PARTY_ORGS[@]}"; do
     cat >> "$ODOOLS_CONFIG" << EOF
 # Ignore diagnostics from third-party: $org
-[[diagnostic_filters]]
+[[config.diagnostic_filters]]
 paths = ["**/$org/**"]
 codes = [".*"]
 path_type = "in"
@@ -208,10 +208,10 @@ done
 
 cat >> "$ODOOLS_CONFIG" << 'FOOTER2'
 # Filter diagnostics for test files (reduce noise)
-[[diagnostic_filters]]
+[[config.diagnostic_filters]]
 paths = ["**/tests/**", "**/test_*"]
 codes = ["OLS.*"]
-types = ["info", "warning"]
+types = ["Info", "Warning"]
 path_type = "in"
 FOOTER2
 
