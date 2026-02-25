@@ -16,7 +16,7 @@ find_addon_paths() {
                            xargs -I {} dirname {} |
                            xargs -I {} dirname {} |
                            grep -v '/tools/posbox' |
-                           sort -u |
+                           sort -u -r |
                            tr '\n' ',' |
                            sed 's/,$//')
             if [ -n "$paths" ]; then
